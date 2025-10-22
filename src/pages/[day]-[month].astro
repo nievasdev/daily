@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getAllDayMonthCombinations, getDevotionalsForDayMonth } from '../utils/devotionalLoader';
+
+export async function getStaticPaths() {
+  const combinations = await getAllDayMonthCombinations();
+
+  return combinations.map(({ day, month }) => ({
+    params: { day: String(day), month: String(month) },
+  }));
+}
+
+const { day, month } = Astro.params;
+const dayNum = parseInt(day as string);
+const monthNum = parseInt(month as string);
+
+const devotionals = await getDevotionalsForDayMonth(dayNum, monthNum);
+
+// Format date for display
+const monthNames = [
+  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+];
+const monthName = monthNames[monthNum - 1];
+
+if (devotionals.length === 0) {
+  return new Response('No devotional found for this day', { status: 404 });
+}
+---
+
+<Layout title={`${monthName} ${dayNum}`}>
+  <div class="x">
+    <div class="y">
+      {monthName} {dayNum}
+    </div>
+
+    {devotionals.map((devotional) => (
+      <div class="z">
+        <h2>{devotional.year}</h2>
+        {devotional.title && <h1>{devotional.title}</h1>}
+        <div set:html={devotional.content} />
+      </div>
+    ))}
+  </div>
+</Layout>

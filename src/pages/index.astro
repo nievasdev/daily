@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Daily Devotional">
+  <div class="x">
+    <div class="r">
+      Redirecting to today's devotional...
+    </div>
+  </div>
+</Layout>
+
+<script>
+const d=new Date();window.location.href=`/${d.getDate()}-${d.getMonth()+1}`;
+</script>
+
+<style>
+.r{color:var(--a);font-size:1rem;margin-top:2rem}
+</style>
