@@ -29,13 +29,13 @@ if (devotionals.length === 0) {
 ---
 
 <Layout title={`${monthName} ${dayNum}`}>
-  <div class="x">
-    <div class="y">
+  <div class="A">
+    <div class="B">
       {monthName} {dayNum}
     </div>
 
     {devotionals.map((devotional) => (
-      <div class="z">
+      <div class="D">
         <h2>{devotional.year}</h2>
         {devotional.title && <h1>{devotional.title}</h1>}
         <div set:html={devotional.content} />
